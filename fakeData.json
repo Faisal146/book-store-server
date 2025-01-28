@@ -1,0 +1,30 @@
+{
+  "id": "S123456",
+  "name": {
+    "first": "John",
+    "middle": "Michael",
+    "last": "Doe"
+  },
+  "gender": "male",
+  "dateOfBirth": "2001-05-15",
+  "email": "john.doe@example.com",
+  "contactNo": "+1234567890",
+  "emergencyContact": "+0987654321",
+  "bloodGroup": "O+",
+  "presentAddress": "123 Main Street, Springfield, IL",
+  "parmanentAddress": "456 Elm Street, Springfield, IL",
+  "guardian": {
+    "fatherName": "Robert Doe",
+    "fatherOccupation": "Engineer",
+    "fatherContact": "+1123456789",
+    "motherName": "Jane Doe",
+    "motherOccupation": "Teacher",
+    "motherContact": "+1987654321"
+  },
+  "localGuardian": {
+    "name": "Richard Roe",
+    "Occupation": "Businessman",
+    "contact": "+1230987654",
+    "address": "789 Maple Street, Springfield, IL"
+  }
+}
