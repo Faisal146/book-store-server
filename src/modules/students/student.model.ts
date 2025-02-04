@@ -1,14 +1,16 @@
 import { Schema, model, connect } from 'mongoose';
 import validator from 'validator';
+import config from '../../app/config';
 
 import {
   Guardian,
   LocalGuardian,
   TStudent as TStudent,
-  StudentMethods,
-  StudentModels,
+  // StudentModels,
   UserName,
+  StudentStaticModel,
 } from './student.interface';
+import bcrypt from 'bcrypt';
 
 // 2. Create a Schema corresponding to the document interface.
 
@@ -43,8 +45,11 @@ const LocalGuardianSchema = new Schema<LocalGuardian>({
   address: { type: String, required: true },
 });
 
-const StudentSchema = new Schema<TStudent, StudentModels, StudentMethods>({
+const StudentSchema = new Schema<TStudent, StudentStaticModel>({
   id: { type: String, required: true, unique: true },
+  password: {
+    type: String,
+  },
   name: UserNameSchema,
   gender: {
     type: String,
@@ -73,16 +78,69 @@ const StudentSchema = new Schema<TStudent, StudentModels, StudentMethods>({
   parmanentAddress: { type: String, required: true },
   guardian: GuardianSchema,
   localGuardian: LocalGuardianSchema,
+  isActive: { type: String, default: 'active' },
+  isDeleted: { type: Boolean, default: false },
 });
 
 // 3. Create a Model.
 
 // const User = model<IUser>('User', userSchema);
 
-StudentSchema.methods.isUserExists = async function (id: string) {
-  const existingUser = await Student.findOne({ id });
+// pre middleware / hook
+// password hash before saving
 
+StudentSchema.pre('save', async function (next) {
+  console.log('we will save the data');
+
+  const user = this;
+  console.log(user.password);
+
+  user.password = await bcrypt.hash(user.password, Number(config.salt_rounds));
+
+  next();
+});
+
+// post middleware/ hook
+
+StudentSchema.post('save', function (doc, next) {
+  doc.password = '';
+  console.log(this, 'we have saved the data');
+
+  next();
+});
+
+// Query Middleware
+
+StudentSchema;
+
+// creating custom static methods
+
+StudentSchema.statics.isUserExists = async function (id: string) {
+  const existingUser = await Student.findOne({ id });
   return existingUser;
 };
 
-export const Student = model<TStudent, StudentModels>('Student', StudentSchema);
+StudentSchema.pre('find', function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+StudentSchema.pre('findOne', function (next) {
+  this.findOne({ isDeleted: { $ne: true } });
+  next();
+});
+StudentSchema.pre('aggregate', function (next) {
+  this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
+  next();
+});
+
+// creating custom instance methods
+
+// StudentSchema.methods.isUserExists = async function (id: string) {
+//   const existingUser = await Student.findOne({ id });
+//   return existingUser;
+// };
+
+export const Student = model<TStudent, StudentStaticModel>(
+  'Student',
+  StudentSchema,
+);

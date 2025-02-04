@@ -27,8 +27,8 @@ export type UserName = {
 
 export type TStudent = {
   id: string;
+  password: string;
   name: UserName;
-
   gender: 'male' | 'female' | 'other';
   email: string;
   dateOfBirth: string;
@@ -41,14 +41,23 @@ export type TStudent = {
   localGuardian: LocalGuardian;
   avatar?: string;
   isActive: 'active' | 'inactive';
+  isDeleted: boolean;
 };
 
-export type StudentMethods = {
+// for creating static methods
+
+export interface StudentStaticModel extends Model<TStudent> {
   isUserExists(id: string): Promise<TStudent | null>;
-};
+}
 
-export type StudentModels = Model<
-  TStudent,
-  Record<string, never>,
-  StudentMethods
->;
+// for creating instance methods
+
+// export type StudentMethods = {
+//   isUserExists(id: string): Promise<TStudent | null>;
+// };
+
+// export type StudentModels = Model<
+//   TStudent,
+//   Record<string, never>,
+//   StudentMethods
+// >;

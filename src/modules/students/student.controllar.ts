@@ -45,8 +45,11 @@ const getAllStudents = async (req: Request, res: Response) => {
       message: 'Students are retrived successfully',
       data: result,
     });
-  } catch (err) {
-    console.log(err);
+  } catch (error: any) {
+    res.status(500).json({
+      message: error.message || 'Student is not created successfully',
+      error,
+    });
   }
 };
 
@@ -59,8 +62,28 @@ const getSingleStudent = async (req: Request, res: Response) => {
       message: 'Student is retrived successfully',
       data: result,
     });
-  } catch (err) {
-    console.log(err);
+  } catch (error: any) {
+    res.status(500).json({
+      message: error.message || 'Student is not created successfully',
+      error,
+    });
+  }
+};
+
+const deleteStudent = async (req: Request, res: Response) => {
+  try {
+    const { studentid } = req.params;
+
+    const result = await StudentServices.deleteStudentFromDB(studentid);
+    res.status(200).json({
+      message: 'Student is retrived successfully',
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      message: error.message || 'Student is not created successfully',
+      error,
+    });
   }
 };
 
@@ -68,4 +91,5 @@ export const StudentControllers = {
   createStudent,
   getAllStudents,
   getSingleStudent,
+  deleteStudent,
 };
