@@ -181,7 +181,7 @@ Develop an Express application with TypeScript, integrating MongoDB with Mongoos
 ```json
 {
   "price": 15,
-  "quantity": 25,
+  "quantity": 25
 }
 ```
 

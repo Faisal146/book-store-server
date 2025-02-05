@@ -30,7 +30,22 @@ const updateSingleProductsIntoDB = async (id: string, updates: any) => {
   try {
     const result = await Product.findByIdAndUpdate(
       id,
-      { $set: updates },
+      { $set: { ...updates, updatedAt: Date.now() } },
+      { new: true, runValidators: true }
+    );
+    return result;
+  } catch (error) {
+    return error;
+  }
+};
+
+const deleteSingleProductsIntoDB = async (id: string) => {
+  try {
+    const time = new Date();
+
+    const result = await Product.findByIdAndUpdate(
+      id,
+      { $set: { isDeleted: true, updatedAt: time } },
       { new: true, runValidators: true }
     );
     return result;
@@ -44,4 +59,5 @@ export const productServices = {
   getAllProductsFromDB,
   getSingleProductsFromDB,
   updateSingleProductsIntoDB,
+  deleteSingleProductsIntoDB,
 };

@@ -93,10 +93,31 @@ const updateProduct = async (req: Request, res: Response) => {
     });
   }
 };
+const deleteProduct = async (req: Request, res: Response) => {
+  try {
+    const { productId } = req.params;
+
+    const result = await productServices.deleteSingleProductsIntoDB(productId);
+
+    res.status(200).json({
+      message: "Book deleted successfully",
+      success: true,
+      data: {},
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      message: error.message || "Product is not deleted",
+      success: false,
+      error,
+      stack: error.stack,
+    });
+  }
+};
 
 export const ProductControllers = {
   createProduct,
   getAllProducts,
   getSingleProduct,
   updateProduct,
+  deleteProduct,
 };

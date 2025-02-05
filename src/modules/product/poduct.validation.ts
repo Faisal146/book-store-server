@@ -37,6 +37,9 @@ const ProductValidationSchema = z.object({
     .max(1000, { message: "Quantity cannot exceed 1000 items" }),
 
   inStock: z.boolean({ message: "InStock must be either true or false" }),
+  isDeleted: z.boolean().default(false),
+  createdAt: z.date().default(() => new Date()),
+  updatedAt: z.date().default(() => new Date()),
 });
 
 export default ProductValidationSchema;
