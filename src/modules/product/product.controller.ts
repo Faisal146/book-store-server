@@ -34,9 +34,55 @@ const getAllProducts = async (req: Request, res: Response) => {
     const products = await productServices.getAllProductsFromDB();
 
     res.status(200).json({
-      message: "Book created successfully",
+      message: "All books fatched successfully",
       success: true,
       data: products,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      message: error.message || "Product is not created",
+      success: false,
+      error,
+      stack: error.stack,
+    });
+  }
+};
+
+const getSingleProduct = async (req: Request, res: Response) => {
+  try {
+    const { productId } = req.params;
+
+    const product = await productServices.getSingleProductsFromDB(productId);
+
+    res.status(200).json({
+      message: "Book retrieved successfully",
+      success: true,
+      data: product,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      message: error.message || "Product is not created",
+      success: false,
+      error,
+      stack: error.stack,
+    });
+  }
+};
+
+const updateProduct = async (req: Request, res: Response) => {
+  try {
+    const { productId } = req.params;
+    const updates = req.body;
+
+    const result = await productServices.updateSingleProductsIntoDB(
+      productId,
+      updates
+    );
+
+    res.status(200).json({
+      message: "Book updated successfully",
+      success: true,
+      data: result,
     });
   } catch (error: any) {
     res.status(500).json({
@@ -51,4 +97,6 @@ const getAllProducts = async (req: Request, res: Response) => {
 export const ProductControllers = {
   createProduct,
   getAllProducts,
+  getSingleProduct,
+  updateProduct,
 };

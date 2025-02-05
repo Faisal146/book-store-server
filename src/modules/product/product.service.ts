@@ -18,8 +18,30 @@ const getAllProductsFromDB = async () => {
     return error;
   }
 };
+const getSingleProductsFromDB = async (id: string) => {
+  try {
+    const result = await Product.findById(id);
+    return result;
+  } catch (error) {
+    return error;
+  }
+};
+const updateSingleProductsIntoDB = async (id: string, updates: any) => {
+  try {
+    const result = await Product.findByIdAndUpdate(
+      id,
+      { $set: updates },
+      { new: true, runValidators: true }
+    );
+    return result;
+  } catch (error) {
+    return error;
+  }
+};
 
 export const productServices = {
   createProductIntoDB,
   getAllProductsFromDB,
+  getSingleProductsFromDB,
+  updateSingleProductsIntoDB,
 };
