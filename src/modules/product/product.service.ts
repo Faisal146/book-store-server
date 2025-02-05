@@ -10,6 +10,16 @@ const createProductIntoDB = async (product: TProduct) => {
   }
 };
 
+const getAllProductsFromDB = async () => {
+  try {
+    const result = await Product.find();
+    return result;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const productServices = {
   createProductIntoDB,
+  getAllProductsFromDB,
 };
