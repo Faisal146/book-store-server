@@ -1,6 +1,6 @@
 import z from "zod";
 
-const zProductSchema = z.object({
+const ProductValidationSchema = z.object({
   title: z
     .string()
     .max(50, { message: "Title must be at most 50 characters long" })
@@ -39,4 +39,4 @@ const zProductSchema = z.object({
   inStock: z.boolean({ message: "InStock must be either true or false" }),
 });
 
-export default zProductSchema;
+export default ProductValidationSchema;
