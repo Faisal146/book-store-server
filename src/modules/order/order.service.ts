@@ -32,30 +32,70 @@ const newOrderIntoDB = async (orderData: TOrder) => {
 };
 
 const totalRevenueDb = async () => {
-  const totalRevenue = await Order.aggregate([
+  // const totalRevenue = await Order.aggregate([
+  //   {
+  //     $lookup: {
+  //       from: "products", // Collection to join with
+  //       localField: "product", // Field in orders
+  //       foreignField: "_id", // Field in books
+  //       as: "bookDetails",
+  //     },
+  //   },
+  //   { $unwind: "$bookDetails" }, // make a bookDetails array
+  //   {
+  //     $group: {
+  //       _id: null, // Group all orders
+  //       totalRevenue: {
+  //         $sum: { $multiply: ["$quantity", "$bookDetails.price"] },
+  //       },
+  //     },
+  //   },
+  // ]);
+
+  // const totalRevenue = await
+  Order.aggregate([
     {
       $lookup: {
-        from: "products", // Collection to join with
-        localField: "product", // Field in orders
-        foreignField: "_id", // Field in books
-        as: "bookDetails",
+        from: "products", // The collection to join with
+        localField: "product", // Field from the orders collection
+        foreignField: "_id", // Field from the products collection
+        as: "productDetails", // Output array field
       },
     },
-    { $unwind: "$bookDetails" }, // Flatten bookDetails array
+    {
+      $unwind: "$productDetails", // Unwind the productDetails array
+    },
+    {
+      $addFields: {
+        totalProductPrice: {
+          $multiply: ["$quantity", "$productDetails.price"],
+        }, // Calculate total price for each product
+      },
+    },
     {
       $group: {
-        _id: null, // Group all orders
-        totalRevenue: {
-          $sum: { $multiply: ["$quantity", "$bookDetails.price"] },
-        },
+        _id: null, // Group all documents together
+        totalRevenue: { $sum: "$totalProductPrice" }, // Sum up the total revenue
       },
     },
-  ]);
+    {
+      $project: {
+        _id: 0, // Exclude the _id field from the output
+        totalRevenue: 1, // Include only the totalRevenue field
+      },
+    },
+  ])
+    .then((result) => {
+      console.log("Total Revenue:", result[0]?.totalRevenue || 0);
+    })
+    .catch((err) => {
+      console.error("Error calculating total revenue:", err);
+    });
+  // console.log(totalRevenue);
 
   // If no orders exist, return 0
-  const revenue = totalRevenue.length > 0 ? totalRevenue[0].totalRevenue : 0;
 
-  return revenue;
+  return 0;
 };
 
 export const orderServices = {

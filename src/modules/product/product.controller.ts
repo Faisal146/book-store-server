@@ -31,7 +31,9 @@ const createProduct = async (req: Request, res: Response) => {
 
 const getAllProducts = async (req: Request, res: Response) => {
   try {
-    const products = await productServices.getAllProductsFromDB();
+    const searchTerm = req.query.searchTerm as string;
+
+    const products = await productServices.getAllProductsFromDB(searchTerm);
 
     res.status(200).json({
       message: "All books fatched successfully",
