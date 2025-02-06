@@ -14,5 +14,5 @@ async function main() {
 main();
 
 app.listen(config.port, () => {
-  console.log(`Project app listening on port ${config.port}`);
+  console.log(`Book Store app listening on port ${config.port}`);
 });

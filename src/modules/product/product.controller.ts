@@ -12,7 +12,7 @@ const createProduct = async (req: Request, res: Response) => {
 
     // save to database
 
-    const result = await productServices.createProductIntoDB(product);
+    const result = await productServices.createProductIntoDB(zodParsedData);
 
     res.status(200).json({
       message: "Book created successfully",
@@ -40,7 +40,7 @@ const getAllProducts = async (req: Request, res: Response) => {
     });
   } catch (error: any) {
     res.status(500).json({
-      message: error.message || "Product is not created",
+      message: error.message || "somthing went wrong",
       success: false,
       error,
       stack: error.stack,
@@ -61,7 +61,7 @@ const getSingleProduct = async (req: Request, res: Response) => {
     });
   } catch (error: any) {
     res.status(500).json({
-      message: error.message || "Product is not created",
+      message: error.message || "somthing went wrong",
       success: false,
       error,
       stack: error.stack,
@@ -86,7 +86,7 @@ const updateProduct = async (req: Request, res: Response) => {
     });
   } catch (error: any) {
     res.status(500).json({
-      message: error.message || "Product is not created",
+      message: error.message || "somthing went wrong",
       success: false,
       error,
       stack: error.stack,
@@ -106,7 +106,7 @@ const deleteProduct = async (req: Request, res: Response) => {
     });
   } catch (error: any) {
     res.status(500).json({
-      message: error.message || "Product is not deleted",
+      message: error.message || "somthing went wrong",
       success: false,
       error,
       stack: error.stack,

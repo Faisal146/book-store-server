@@ -1,6 +1,8 @@
-type TOrder = {
+export type TOrder = {
   email: string;
   product: string;
   quantity: number;
-  totalPrice: number;
+  totalPrice?: number;
+  createdAt: Date;
+  updatedAt: Date;
 };
