@@ -1,5 +1,5 @@
-import { Schema, model, connect } from "mongoose";
-import { TProduct } from "./product.interface";
+import { Schema, model, connect } from 'mongoose';
+import { TProduct } from './product.interface';
 
 // creating a schema
 
@@ -18,17 +18,17 @@ const ProductSchema = new Schema<TProduct>({
 
 // creating a model
 
-ProductSchema.pre("find", function (next) {
+ProductSchema.pre('find', function (next) {
   this.find({ isDeleted: { $ne: true } });
   next();
 });
-ProductSchema.pre("findOne", function (next) {
+ProductSchema.pre('findOne', function (next) {
   this.findOne({ isDeleted: { $ne: true } });
   next();
 });
-ProductSchema.pre("aggregate", function (next) {
+ProductSchema.pre('aggregate', function (next) {
   this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
   next();
 });
 
-export const Product = model<TProduct>("Product", ProductSchema);
+export const Product = model<TProduct>('Product', ProductSchema);

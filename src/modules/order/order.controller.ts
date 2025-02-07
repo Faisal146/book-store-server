@@ -1,6 +1,6 @@
-import { Request, Response } from "express";
-import { orderServices } from "./order.service";
-import orderValidationSchema from "./order.validation";
+import { Request, Response } from 'express';
+import { orderServices } from './order.service';
+import orderValidationSchema from './order.validation';
 
 const newOrder = async (req: Request, res: Response) => {
   try {
@@ -10,13 +10,13 @@ const newOrder = async (req: Request, res: Response) => {
     const result = await orderServices.newOrderIntoDB(zodParsedData);
 
     res.status(200).json({
-      message: "Order created successfully",
+      message: 'Order created successfully',
       success: true,
       data: result,
     });
   } catch (error: any) {
     res.status(500).json({
-      message: error.message || "order is not created",
+      message: error.message || 'order is not created',
       success: false,
       error,
       stack: error.stack,
@@ -29,7 +29,7 @@ const totalRevenue = async (req: Request, res: Response) => {
     const result = await orderServices.totalRevenueDb();
 
     res.status(200).json({
-      message: "Revenue calculated successfully",
+      message: 'Revenue calculated successfully',
       success: true,
       data: {
         totalRevenue: result, // Total revenue calculated from all orders
@@ -37,7 +37,7 @@ const totalRevenue = async (req: Request, res: Response) => {
     });
   } catch (error: any) {
     res.status(500).json({
-      message: error.message || "order is not created",
+      message: error.message || 'somthing went wrong',
       success: false,
       error,
       stack: error.stack,

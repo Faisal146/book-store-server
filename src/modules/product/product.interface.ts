@@ -8,4 +8,5 @@ export type TProduct = {
   inStock: boolean;
   isDeleted: boolean;
   createdAt: Date;
+  updatedAt: Date;
 };
