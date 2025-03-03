@@ -6,7 +6,9 @@ export type TProduct = {
   description: string;
   quantity: number;
   inStock: boolean;
+  img: string;
   isDeleted: boolean;
+
   createdAt: Date;
   updatedAt: Date;
 };

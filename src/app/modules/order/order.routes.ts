@@ -12,9 +12,10 @@ router.post(
   validateRequest(orderValidationSchema),
   orderController.newOrder,
 );
-router.get('/', orderController.getAllOrders);
+router.get('/', auth('admin'), orderController.getAllOrders);
 router.get('/my-orders', auth('user', 'admin'), orderController.getUserOrders);
+router.get('/:id', auth('user', 'admin'), orderController.getSingleOrder);
 router.delete('/:id', auth('user', 'admin'), orderController.deleteOrder);
-router.get('/revenue', auth('admin'), orderController.totalRevenue);
+router.get('/revenue/totalrevenue', orderController.totalRevenue);
 
 export const orderRouter = router;

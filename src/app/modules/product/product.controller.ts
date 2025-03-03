@@ -8,11 +8,9 @@ const createProduct = async (req: Request, res: Response) => {
 
     // validate with zod
 
-    const zodParsedData = ProductValidationSchema.parse(product);
-
     // save to database
 
-    const result = await productServices.createProductIntoDB(zodParsedData);
+    const result = await productServices.createProductIntoDB(req.file, product);
 
     res.status(200).json({
       message: 'Book created successfully',

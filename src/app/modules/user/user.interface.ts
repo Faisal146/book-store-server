@@ -6,6 +6,11 @@ export interface TUser {
   email: string;
   password: string;
   role: 'admin' | 'user';
+  profileImg?: string | null;
+  cart?: {
+    item: string;
+    quantity: number;
+  }[];
   isBlocked: boolean;
 }
 

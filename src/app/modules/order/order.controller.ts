@@ -6,7 +6,7 @@ import sendResponse from '../../utils/sendResponse';
 import httpStatus from 'http-status';
 import { CustomRequest } from '../../interface/customRequest';
 
-const newOrder = async (req: Request, res: Response) => {
+const newOrder = async (req: CustomRequest, res: Response) => {
   try {
     const order = req.body;
     const user = req.user;
@@ -47,6 +47,27 @@ const getAllOrders = async (req: Request, res: Response) => {
   }
 };
 
+const getSingleOrder = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    const result = await orderServices.getSingleOrderFromDB(id);
+
+    res.status(200).json({
+      message: 'Order is fatched successfully',
+      success: true,
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      message: error.message || 'order is not created',
+      success: false,
+      error,
+      stack: error.stack,
+    });
+  }
+};
+
 const getUserOrders = catchAsync(async (req: CustomRequest, res) => {
   const user = req.user;
   const result = await orderServices.getUserOrders(user);
@@ -74,6 +95,7 @@ const deleteOrder = catchAsync(async (req: CustomRequest, res) => {
 
 const totalRevenue = async (req: Request, res: Response) => {
   try {
+    console.log('lksjdf');
     const result = await orderServices.totalRevenueDb();
 
     res.status(200).json({
@@ -99,4 +121,5 @@ export const orderController = {
   getAllOrders,
   deleteOrder,
   getUserOrders,
+  getSingleOrder,
 };

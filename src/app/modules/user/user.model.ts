@@ -2,6 +2,7 @@ import mongoose, { model } from 'mongoose';
 import config from '../../config';
 import bcrypt from 'bcrypt';
 import { TUser, UserStaticModel } from './user.interface';
+import { Schema } from 'zod';
 
 const userSchema = new mongoose.Schema<TUser, UserStaticModel>(
   {
@@ -26,6 +27,18 @@ const userSchema = new mongoose.Schema<TUser, UserStaticModel>(
       enum: ['admin', 'user'],
       default: 'user',
     },
+    profileImg: {
+      type: String,
+    },
+    cart: [
+      {
+        item: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Product',
+        },
+        quantity: { type: Number, default: 1 },
+      },
+    ],
     isBlocked: {
       type: Boolean,
       default: false,

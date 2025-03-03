@@ -4,7 +4,10 @@ import sendResponse from '../../utils/sendResponse';
 import { authServices } from './auth.service';
 
 const createUser = catchAsync(async (req, res) => {
-  const result = await authServices.createUserIntoDB(req.body);
+  const result = await authServices.createUserIntoDB(req.file, req.body);
+
+  // console.log(req.file);
+  // console.log(req.body);
 
   sendResponse(res, {
     success: true,

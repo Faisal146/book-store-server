@@ -5,13 +5,30 @@ import { createToken } from './auth.utils';
 import { TUser } from '../user/user.interface';
 import { User } from '../user/user.model';
 import httpStatus from 'http-status';
+import { sendImageToCloudinary } from '../../utils/sendImageToCloudinary';
 
-const createUserIntoDB = async (payload: TUser) => {
+const createUserIntoDB = async (file: any, payload: TUser) => {
   const emailExists = await User.findOne({ email: payload.email });
 
   if (emailExists) {
     throw new AppError(400, 'This email already exists');
   }
+
+  const imageName = payload.email + '-' + Date.now();
+
+  let imageUrl;
+  if (file) {
+    imageUrl = await sendImageToCloudinary(imageName, file);
+  }
+
+  // console.log('imageurl is =>', imageUrl);
+
+  if (imageUrl) {
+    payload.profileImg = imageUrl;
+  } else {
+    payload.profileImg = '';
+  }
+
   const result = await User.create(payload);
 
   const userResponse = result.toObject();

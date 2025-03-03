@@ -1,11 +1,12 @@
 import z from 'zod';
 
 const orderValidationSchema = z.object({
+  name: z.string(),
   email: z.string(),
   products: z
     .array(
       z.object({
-        name: z.string(),
+        product: z.string(),
         quantity: z
           .number()
           .max(10, { message: 'You cannot order more than 10' }),
@@ -16,7 +17,9 @@ const orderValidationSchema = z.object({
   totalQuantity: z.number().optional(),
   user: z.string().optional(),
   totalPrice: z.number().optional(),
-  placed: z.boolean().optional(),
+  paid: z.boolean(),
+  payment_method: z.string(),
+  status: z.string().optional(),
   address: z.object({
     division: z.string(),
     district: z.string(),

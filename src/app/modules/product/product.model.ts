@@ -11,6 +11,7 @@ const ProductSchema = new Schema<TProduct>({
   description: { type: String, required: true },
   quantity: { type: Number, required: true },
   inStock: { type: Boolean, default: true },
+  img: { type: String },
   isDeleted: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
