@@ -111,3 +111,5 @@ export const ProductValidationSchemas = {
   CreateProductValidationSchema,
   UpdateProductValidationSchema,
 };
+
+export default 's';

@@ -11,6 +11,22 @@ This is a complete server for a book store. All api are included for products, o
 - Uses Mongoose for schema definition and data operations.
 - Implemented CRUD operations for both books and orders.
 
+# Featues :
+
+## User features :
+
+1. user can view, add to cart, and order books,
+2. user can update profile information,
+3. user can see and manage their order status
+
+## Admin features :
+
+1. admin can track records from dashboad ,
+2. admin can manage all users,
+3. admin can block or unblock any user,
+4. admin can update, delete or add new products,
+5. admin can see and update user orders payment status and order status
+
 ---
 
 ### **Used Packages:**
