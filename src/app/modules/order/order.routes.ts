@@ -15,6 +15,7 @@ router.post(
 router.get('/', auth('admin'), orderController.getAllOrders);
 router.get('/my-orders', auth('user', 'admin'), orderController.getUserOrders);
 router.get('/:id', auth('user', 'admin'), orderController.getSingleOrder);
+router.patch('/:id', auth('admin'), orderController.updateOrder);
 router.delete('/:id', auth('user', 'admin'), orderController.deleteOrder);
 router.get('/revenue/totalrevenue', orderController.totalRevenue);
 

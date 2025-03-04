@@ -14,7 +14,7 @@ const orderSchema = new mongoose.Schema<TOrder>({
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   totalQuantity: { type: Number },
   totalPrice: { type: Number },
-  paid: { type: Boolean },
+  paid: { type: Boolean, default: false },
   payment_method: { type: String },
   status: { type: String, default: 'placed' },
   address: { type: Object, required: true },

@@ -80,6 +80,18 @@ const getUserOrders = catchAsync(async (req: CustomRequest, res) => {
   });
 });
 
+const updateOrder = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await orderServices.updateOrderInDB(req.body, id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: 'This Order updated successfully',
+    success: true,
+    data: result,
+  });
+});
+
 const deleteOrder = catchAsync(async (req: CustomRequest, res) => {
   const user = req.user;
   const { id } = req.params;
@@ -122,4 +134,5 @@ export const orderController = {
   deleteOrder,
   getUserOrders,
   getSingleOrder,
+  updateOrder,
 };

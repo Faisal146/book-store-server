@@ -5,11 +5,13 @@ import { User } from '../user/user.model';
 import { TOrder } from './order.interface';
 import { Order } from './order.model';
 import QueryBuilder from '../../builder/QueryBuilder';
+import { payment } from '../../utils/payment';
 
-const newOrderIntoDB = async (user, orderData: TOrder) => {
+const newOrderIntoDB = async (user: any, orderData: TOrder) => {
   // console.log(user);
-  // console.log(orderData);
+  //  console.log(orderData);
 
+  //if (orderData.payment_method !== 'online') {
   let allTotalPrice = 0;
   let totalQuantity = 0;
   let error = null;
@@ -101,12 +103,16 @@ const newOrderIntoDB = async (user, orderData: TOrder) => {
 
   //   await book.save(); // Save updated book
 
-  const orderResult = await Order.create(orderData);
-
-  return orderResult;
+  if (orderData.payment_method !== 'online') {
+    const orderResult = await Order.create(orderData);
+    return orderResult;
+  } else {
+    const payment_url = await payment(orderData);
+    console.log(payment_url);
+  }
 };
 
-const getUserOrders = async (user) => {
+const getUserOrders = async (user: any) => {
   console.log(user.email);
 
   const userData = await User.findOne({ email: user.email });
@@ -123,7 +129,7 @@ const getUserOrders = async (user) => {
 
   return result;
 };
-const deleteUserOrder = async (user, id: string) => {
+const deleteUserOrder = async (user: any, id: string) => {
   console.log(user, id);
 
   const userData = await User.findOne({ email: user.email });
@@ -184,6 +190,16 @@ const getSingleOrderFromDB = async (id: string) => {
   return result;
 };
 
+const updateOrderInDB = async (data: any, id: string) => {
+  try {
+    const result = await Order.findByIdAndUpdate(id, { ...data });
+
+    return result;
+  } catch {
+    throw new AppError(httpStatus.BAD_REQUEST, 'update faild');
+  }
+};
+
 const totalRevenueDb = async () => {
   const result = await Order.aggregate([
     {
@@ -233,4 +249,5 @@ export const orderServices = {
   getUserOrders,
   deleteUserOrder,
   getSingleOrderFromDB,
+  updateOrderInDB,
 };

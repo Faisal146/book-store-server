@@ -9,6 +9,7 @@ const getAllUserFromDB = async (query: Record<string, any>) => {
   const userQuery = new QueryBuilder(User.find(), query)
     .search(userSearchableFields)
     .filter()
+    .paginate()
     .sort()
     .fields();
 
@@ -43,7 +44,7 @@ const getSingleUserWithEmail = async (email: string) => {
   return result;
 };
 
-const UpdateUser = async (id, data) => {
+const UpdateUser = async (id: string, data: any) => {
   const user = await User.findById(id);
 
   if (!user) {
@@ -58,7 +59,7 @@ const UpdateUser = async (id, data) => {
   return result;
 };
 
-const addToCart = async (data, userData) => {
+const addToCart = async (data: any, userData: any) => {
   const user = await User.findOne({ email: userData.email });
 
   if (!user) {
@@ -73,7 +74,7 @@ const addToCart = async (data, userData) => {
   return result;
 };
 
-const removeItemFromCart = async (item, data) => {
+const removeItemFromCart = async (item: any, data: any) => {
   // const user = await User.findOne({ email: data.email });
   // if (!user) {
   //   throw new AppError(httpStatus.NOT_FOUND, 'user not found');

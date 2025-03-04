@@ -22,3 +22,5 @@ This is a complete server for a book store. All api are included for products, o
 - Dotenv (for environment variables)
 - zod (for schema validation)
 - Eslint (for code linting and bug fixing)
+
+### SSL Commerz: for payment integretion
