@@ -113,8 +113,6 @@ const newOrderIntoDB = async (user: any, orderData: TOrder) => {
 };
 
 const getUserOrders = async (user: any) => {
-  console.log(user.email);
-
   const userData = await User.findOne({ email: user.email });
 
   const result = await Order.find({ user: userData?._id })

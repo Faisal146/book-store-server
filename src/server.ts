@@ -12,7 +12,7 @@ async function main() {
     console.log('mongodb connected');
 
     server = app.listen(config.port, () => {
-      console.log(`app is listening on port ${config.port}`);
+      console.log(`Book shop backend is listening on port ${config.port}`);
     });
   } catch (err) {
     console.log(err);

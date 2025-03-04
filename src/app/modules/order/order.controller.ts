@@ -107,7 +107,6 @@ const deleteOrder = catchAsync(async (req: CustomRequest, res) => {
 
 const totalRevenue = async (req: Request, res: Response) => {
   try {
-    console.log('lksjdf');
     const result = await orderServices.totalRevenueDb();
 
     res.status(200).json({

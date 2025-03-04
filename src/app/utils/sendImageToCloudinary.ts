@@ -25,15 +25,17 @@ export const sendImageToCloudinary = async (imageName: string, file: any) => {
         console.log(error);
       });
 
-    console.log(uploadResult);
+    // console.log(uploadResult);
 
-    fs.unlink(file.path, (err) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log('File is deleted.');
-      }
-    });
+    if (uploadResult) {
+      fs.unlink(file.path, (err) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log('File is deleted.');
+        }
+      });
+    }
 
     // Optimize delivery by resizing and applying auto-format and auto-quality
     const optimizeUrl = cloudinary.url(imageName, {
@@ -41,7 +43,7 @@ export const sendImageToCloudinary = async (imageName: string, file: any) => {
       quality: 'auto',
     });
 
-    console.log(optimizeUrl);
+    // console.log(optimizeUrl);
 
     // Transform the image: auto-crop to square aspect_ratio
     const autoCropUrl = cloudinary.url(imageName, {
@@ -51,7 +53,7 @@ export const sendImageToCloudinary = async (imageName: string, file: any) => {
       height: 500,
     });
 
-    console.log(autoCropUrl);
+    // console.log(autoCropUrl);
 
     return autoCropUrl;
   }
